@@ -21,7 +21,7 @@ class AcromineViewModel @Inject constructor(
     val acronymState = _acronymState.asStateFlow()
 
     val longFormsState = acronymState
-        .debounce(300)
+        .debounce(DEBOUNCE_MILLIS)
         .transformLatest { acronym ->
             if (acronym.isEmpty()) {
                 emit(NetworkResult.Success(emptyList()))
@@ -38,5 +38,9 @@ class AcromineViewModel @Inject constructor(
 
     fun updateAcronymInput(acronym: String) {
         _acronymState.value = acronym
+    }
+
+    companion object {
+        const val DEBOUNCE_MILLIS = 300L
     }
 }
